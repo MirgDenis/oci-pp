@@ -1,0 +1,16 @@
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: OCIMachineTemplate
+metadata:
+  name: {{ include "ocimachinetemplate.controlplane.name" . }}
+  namespace: {{ .Values.cluster.namespace }}
+spec:
+  template:
+    spec:
+      imageId: {{ .Values.controlPlane.imageId }}
+      compartmentId: {{ .Values.cluster.compartmentId }}
+      shape: {{ .Values.controlPlane.shape }}
+      shapeConfig:
+        ocpus: {{ .Values.controlPlane.shapeConfig.ocpus }}
+      metadata:
+        ssh_authorized_keys: {{ .Values.controlPlane.metadata.ssh_authorized_keys }}
+      isPvEncryptionInTransitEnabled: {{ .Values.controlPlane.isPvEncryptionInTransitEnabled }}

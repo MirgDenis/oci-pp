@@ -1,0 +1,42 @@
+apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+kind: K0sControlPlane
+metadata:
+  name: {{ include "k0scontrolplane.name" . }}
+  namespace: {{ .Values.cluster.namespace }}
+spec:
+  replicas: {{ .Values.controlPlaneNumber }}
+  version: {{ .Values.k0s.version }}
+  k0sConfigSpec:
+    preStartCommands:
+    {{- with .Values.controlPlane.preStartCommands }}
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    args:
+      - --enable-worker
+      - --disable-components=konnectivity-server
+    k0s:
+      apiVersion: k0s.k0sproject.io/v1beta1
+      kind: ClusterConfig
+      metadata:
+        name: k0s
+      spec:
+        telemetry:
+          enabled: {{ .Values.k0s.telemetry.enabled }}
+        api:
+          extraArgs:
+            anonymous-auth: "true"
+            {{- with .Values.k0s.api.extraArgs }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
+        network:
+          provider: calico
+          calico:
+            mode: vxlan
+        images:
+          repository: "{{ .Values.k0s.images.repository }}"
+  machineTemplate:
+    infrastructureRef:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+      kind: OCIMachineTemplate
+      name: {{ include "ocimachinetemplate.controlplane.name" . }}
+      namespace: {{ .Values.cluster.namespace }}

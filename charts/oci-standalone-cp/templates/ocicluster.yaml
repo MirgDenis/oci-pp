@@ -1,0 +1,7 @@
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: OCICluster
+metadata:
+  name: {{ include "cluster.name" . }}
+  namespace: {{ .Values.cluster.namespace }}
+spec:
+  compartmentId: {{ .Values.cluster.compartmentId }}

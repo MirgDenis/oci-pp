@@ -1,0 +1,57 @@
+# @schema title: OCI Cluster Configuration
+# @schema description: Configuration for OCI based Kubernetes cluster
+
+# Cluster parameters
+controlPlaneNumber: 1 # @schema description: The number of the control plane nodes; type: number; minimum: 1
+workersNumber: 1 # @schema description: The number of the worker nodes; type: number; minimum: 1
+
+clusterIdentity: # @schema description: The OCI Service Account credentials secret reference, auto-populated; type: object
+  name: "" # @schema description: The OCI Service Account credentials secret name, auto-populated; type: string
+
+cluster: # @schema description: Basic cluster information; type: object
+  name: "" # @schema description: The name of the cluster; type: string
+  namespace: "default" # @schema description: The namespace where cluster resources will be created; type: string
+  compartmentId: "" # @schema description: Compartment to create the cluster network; type: string
+
+clusterNetwork: # @schema description: The cluster network configuration; type: object
+  pods: # @schema description: The network ranges from which Pod networks are allocated; type: object
+    cidrBlocks: # @schema description: A list of CIDR blocks; type: array; items: string
+      - "10.243.0.0/16"
+  services: # @schema description: The network ranges from which service VIPs are allocated; type: object
+    cidrBlocks: # @schema description: A list of CIDR blocks; type: array; items: string
+      - "10.95.0.0/16"
+
+clusterLabels: {} # @schema description: Labels to apply to the cluster; type: object; additionalProperties: true
+clusterAnnotations: {} # @schema description: Annotations to apply to the cluster; type: object; additionalProperties: true
+
+# OCI machines parameters
+controlPlane: # @schema description: Control plane parameters; type: object
+  imageId: "" # @schema description: OCID of the image to be used to launch the instance; type: string
+  isPvEncryptionInTransitEnabled: true # @schema description: Is in transit encryption of volumes required; type: boolean
+  shape: "VM.Standard.E4.Flex" # @schema description: Shape of the instance; type: string
+  shapeConfig: # @schema description: The shape configuration of rhe instance, applicable for flex instances; type: object
+    ocpus: "1" # @schema description: The total number of OCPUs available to the instance; type: string
+  metadata: # @schema description: Custom metadata key/value pairs that you provide; type: object
+    ssh_authorized_keys: "" # @schema description: The public SSH key that was provided when creating the instance; type: string
+  preStartCommands: [] # @schema description: Commands to run before starting K0s service; type: array; items: string
+
+worker: # @schema description: Worker parameters; type: object
+  failureDomain: "" # @schema description: The failure domain the machine will be created in; type: string
+  imageId: "" # @schema description: OCID of the image to be used to launch the instance; type: string
+  isPvEncryptionInTransitEnabled: true # @schema description: Is in transit encryption of volumes required; type: boolean
+  shape: "VM.Standard.E4.Flex" # @schema description: Shape of the instance; type: string
+  shapeConfig: # @schema description: The shape configuration of rhe instance, applicable for flex instances; type: object
+    ocpus: "1" # @schema description: The total number of OCPUs available to the instance; type: string
+  metadata: # @schema description: Custom metadata key/value pairs that you provide; type: object
+    ssh_authorized_keys: "" # @schema description: The public SSH key that was provided when creating the instance; type: string
+  preStartCommands: [] # @schema description: Commands to run before starting K0s service; type: array; items: string
+
+# K0s parameters
+k0s: # @schema description: K0s parameters; type: object
+  version: v1.31.7+k0s.0 # @schema description: K0s version; type: string
+  api: # @schema description: Kubernetes API server parameters; type: object; additionalProperties: object
+    extraArgs: {} # @schema description: Map of key-values (strings) for any extra arguments to pass down to Kubernetes api-server process; type: object; additionalProperties: true
+  images: # @schema description: Container image configuration; type: object
+    repository: "" # @schema description: Container image repository to use; type: string
+  telemetry: # @schema description: Telemetry configuration; type: object
+    enabled: false # @schema description: Whether to enable telemetry; type: boolean
