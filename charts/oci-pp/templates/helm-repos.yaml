@@ -8,5 +8,5 @@ metadata:
     k0rdent.mirantis.com/managed: "true"
 spec:
   type: oci
-  url: 'oci://ghcr.io/k0rdent-oot/oot/charts'
+  url: 'oci://ghcr.io/mirgdenis/oci-pp/charts'
   interval: 10m0s
