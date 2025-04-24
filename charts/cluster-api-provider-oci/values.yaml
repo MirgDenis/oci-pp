@@ -1,6 +1,12 @@
 config: # @schema description: Configuration settings; type: object
   secret:
-    create: false # @schema description: Whether to create a new secret; type: boolean
-    name: "" # @schema description: Name for objects to use; type: string
-    data: {} # @schema description: Secret data; type: object; additionalProperties: true
+    create: true # @schema description: Whether to create a new secret; type: boolean
+    name: "oci-variables" # @schema description: Name for objects to use; type: string
+    data: # @schema description: Secret data; type: object; additionalProperties: true
+      OCI_TENANCY_ID_B64: Zm9v
+      OCI_CREDENTIALS_FINGERPRINT_B64: Zm9v
+      OCI_USER_ID_B64: Zm9v
+      OCI_REGION_B64: Zm9v
+      # Do not want to add dummy-key here, so please generate one on your own
+      OCI_CREDENTIALS_KEY_B64: <PLACEHOLDER>
   namespace: "" # @schema description: Namespace for objects; type: string
