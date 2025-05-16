@@ -2,7 +2,7 @@
 apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: ProviderInterface
 metadata:
-  name: oci
+  name: cluster-api-provider-oci
   annotations:
     helm.sh/resource-policy: keep
 spec:
