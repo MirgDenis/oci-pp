@@ -13,6 +13,8 @@ spec:
     {{- end }}
     args:
       - --enable-worker
+      - --enable-cloud-provider
+      - --kubelet-extra-args="--cloud-provider=external"
       - --disable-components=konnectivity-server
     k0s:
       apiVersion: k0s.k0sproject.io/v1beta1
@@ -20,6 +22,13 @@ spec:
       metadata:
         name: k0s
       spec:
+        extensions:
+          helm:
+            charts:
+              - name: oci-ccm
+                namespace: kube-system
+                chartname: oci://ghcr.io/mirgdenis/oci-ccm/charts
+                version: "0.1.0"
         telemetry:
           enabled: {{ .Values.k0s.telemetry.enabled }}
         api:

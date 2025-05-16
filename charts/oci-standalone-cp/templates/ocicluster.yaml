@@ -3,5 +3,10 @@ kind: OCICluster
 metadata:
   name: {{ include "cluster.name" . }}
   namespace: {{ .Values.cluster.namespace }}
+  finalizers:
+    - k0rdent.mirantis.com/cleanup
 spec:
   compartmentId: {{ .Values.cluster.compartmentId }}
+  identityRef:
+    kind: {{ .Values.clusterIdentity.kind }}
+    name: {{ .Values.clusterIdentity.name }}
