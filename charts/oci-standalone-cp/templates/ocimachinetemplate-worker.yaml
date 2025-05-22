@@ -2,15 +2,13 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
 kind: OCIMachineTemplate
 metadata:
   name: {{ include "ocimachinetemplate.worker.name" . }}
-  namespace: {{ .Values.cluster.namespace }}
 spec:
   template:
     spec:
       imageId: {{ .Values.worker.imageId }}
-      compartmentId: {{ .Values.cluster.compartmentId }}
       shape: {{ .Values.worker.shape }}
       shapeConfig:
-        ocpus: {{ .Values.worker.shapeConfig.ocpus }}
+        ocpus: "{{ .Values.worker.shapeConfig.ocpus }}"
       metadata:
         ssh_authorized_keys: {{ .Values.worker.metadata.ssh_authorized_keys }}
       isPvEncryptionInTransitEnabled: {{ .Values.worker.isPvEncryptionInTransitEnabled }}

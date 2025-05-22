@@ -2,9 +2,6 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
 kind: OCICluster
 metadata:
   name: {{ include "cluster.name" . }}
-  namespace: {{ .Values.cluster.namespace }}
-  finalizers:
-    - k0rdent.mirantis.com/cleanup
 spec:
   compartmentId: {{ .Values.cluster.compartmentId }}
   identityRef:

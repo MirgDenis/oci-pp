@@ -9,17 +9,15 @@ clusterIdentity: # @schema description: The OCI Service Account credentials secr
   name: "" # @schema description: The OCI Service Account credentials secret name, auto-populated; type: string
 
 cluster: # @schema description: Basic cluster information; type: object
-  name: "" # @schema description: The name of the cluster; type: string
-  namespace: "default" # @schema description: The namespace where cluster resources will be created; type: string
   compartmentId: "" # @schema description: Compartment to create the cluster network; type: string
 
 clusterNetwork: # @schema description: The cluster network configuration; type: object
   pods: # @schema description: The network ranges from which Pod networks are allocated; type: object
     cidrBlocks: # @schema description: A list of CIDR blocks; type: array; items: string
-      - "10.243.0.0/16"
+      - "192.168.0.0/16"
   services: # @schema description: The network ranges from which service VIPs are allocated; type: object
     cidrBlocks: # @schema description: A list of CIDR blocks; type: array; items: string
-      - "10.95.0.0/16"
+      - "10.128.0.0/12"
 
 clusterLabels: {} # @schema description: Labels to apply to the cluster; type: object; additionalProperties: true
 clusterAnnotations: {} # @schema description: Annotations to apply to the cluster; type: object; additionalProperties: true
@@ -51,7 +49,5 @@ k0s: # @schema description: K0s parameters; type: object
   version: v1.31.7+k0s.0 # @schema description: K0s version; type: string
   api: # @schema description: Kubernetes API server parameters; type: object; additionalProperties: object
     extraArgs: {} # @schema description: Map of key-values (strings) for any extra arguments to pass down to Kubernetes api-server process; type: object; additionalProperties: true
-  images: # @schema description: Container image configuration; type: object
-    repository: "" # @schema description: Container image repository to use; type: string
   telemetry: # @schema description: Telemetry configuration; type: object
     enabled: false # @schema description: Whether to enable telemetry; type: boolean

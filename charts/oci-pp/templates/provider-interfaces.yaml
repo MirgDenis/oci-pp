@@ -6,7 +6,6 @@ metadata:
   annotations:
     helm.sh/resource-policy: keep
 spec:
-  template: "cluster-api-provider-oci-0-2-1"
   clusterGVKs:
     - group: infrastructure.cluster.x-k8s.io
       version: v1beta2

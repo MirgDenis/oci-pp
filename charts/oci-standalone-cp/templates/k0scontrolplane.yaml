@@ -2,7 +2,6 @@ apiVersion: controlplane.cluster.x-k8s.io/v1beta1
 kind: K0sControlPlane
 metadata:
   name: {{ include "k0scontrolplane.name" . }}
-  namespace: {{ .Values.cluster.namespace }}
 spec:
   replicas: {{ .Values.controlPlaneNumber }}
   version: {{ .Values.k0s.version }}
@@ -27,7 +26,7 @@ spec:
             charts:
               - name: oci-ccm
                 namespace: kube-system
-                chartname: oci://ghcr.io/mirgdenis/oci-ccm/charts
+                chartname: oci://ghcr.io/mirgdenis/oci-ccm/charts/oci-ccm
                 version: "0.1.0"
         telemetry:
           enabled: {{ .Values.k0s.telemetry.enabled }}
@@ -40,12 +39,10 @@ spec:
         network:
           provider: calico
           calico:
-            mode: vxlan
-        images:
-          repository: "{{ .Values.k0s.images.repository }}"
+            mode: ipip
   machineTemplate:
     infrastructureRef:
       apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
       kind: OCIMachineTemplate
       name: {{ include "ocimachinetemplate.controlplane.name" . }}
-      namespace: {{ .Values.cluster.namespace }}
+      namespace: {{ .Release.Namespace }}

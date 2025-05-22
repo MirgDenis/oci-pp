@@ -3,19 +3,8 @@
     "properties": {
         "cluster": {
             "description": "Basic cluster information",
+            "required": ["compartmentId"],
             "properties": {
-                "name": {
-                    "description": "The name of the cluster",
-                    "type": [
-                        "string"
-                    ]
-                },
-                "namespace": {
-                    "description": "The namespace where cluster resources will be created",
-                    "type": [
-                        "string"
-                    ]
-                },
                 "compartmentId": {
                     "description": "Compartment to create the cluster network",
                     "type": [
@@ -101,6 +90,7 @@
         },
         "controlPlane": {
             "description": "Control plane parameters",
+            "required": ["imageId"],
             "properties": {
                 "imageId": {
                     "description": "OCID of the image to be used to launch the instance",
@@ -142,6 +132,20 @@
                     "type": [
                         "object"
                     ]
+                },
+                "metadata": {
+                    "description": "Custom metadata key/value pairs",
+		    "properties": {
+			"ssh_authorized_keys": {
+                            "description": "Public SSH key for instances",
+			    "type": [
+			        "string"
+			    ]
+			}
+		    },
+                    "type": [
+                        "object"
+                    ]
                 }
             },
             "type": [
@@ -167,20 +171,6 @@
                             "properties": {},
                             "type": [
                                 "object"
-                            ]
-                        }
-                    },
-                    "type": [
-                        "object"
-                    ]
-                },
-                "images": {
-                    "description": "Container image configuration",
-                    "properties": {
-                        "repository": {
-                            "description": "Container image repository to use",
-                            "type": [
-                                "string"
                             ]
                         }
                     },
@@ -215,6 +205,7 @@
         },
         "worker": {
             "description": "Worker parameters",
+            "required": ["imageId"],
             "properties": {
                 "failureDomain": {
                     "description": "The failure domain the machine will be created in",
@@ -254,6 +245,20 @@
 		    "properties": {
 			"ocpus": {
                             "description": "The total number of OCPUs available to the instance",
+			    "type": [
+			        "string"
+			    ]
+			}
+		    },
+                    "type": [
+                        "object"
+                    ]
+                },
+                "metadata": {
+                    "description": "Custom metadata key/value pairs",
+		    "properties": {
+			"ssh_authorized_keys": {
+                            "description": "Public SSH key for instances",
 			    "type": [
 			        "string"
 			    ]

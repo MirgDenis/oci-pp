@@ -1,0 +1,39 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ClusterDeployment
+metadata:
+  name: oci-${CLUSTER_NAME_SUFFIX}
+  namespace: ${NAMESPACE}
+spec:
+  template: oci-standalone-cp-0-2-1
+  credential: oci-cluster-identity-cred
+  config:
+    clusterLabels: {}
+    clusterAnnotations: {}
+    cluster:
+      compartmentId: ${OCI_COMPARTMENT}
+    worker:
+      imageId: ${OCI_IMAGE_ID}
+      preStartCommands:
+      - passwd -u root
+      - echo "root:root" | chpasswd
+      - iptables -F FORWARD
+      - iptables -P FORWARD ACCEPT
+      - iptables -I INPUT -p tcp -m state --state NEW -m tcp --dport 6443 -j ACCEPT
+      - iptables -I INPUT -p tcp -m state --state NEW -m tcp --dport 179 -j ACCEPT
+      - iptables -I INPUT -p tcp -m state --state NEW -m tcp --dport 10250 -j ACCEPT
+      - iptables-save > /etc/iptables/rules.v4
+      metadata:
+        ssh_authorized_keys: ${OCI_PUB_SSH}
+    controlPlane:
+      imageId: ${OCI_IMAGE_ID}
+      preStartCommands:
+      - passwd -u root
+      - echo "root:root" | chpasswd
+      - iptables -F FORWARD
+      - iptables -P FORWARD ACCEPT
+      - iptables -I INPUT -p tcp -m state --state NEW -m tcp --dport 6443 -j ACCEPT
+      - iptables -I INPUT -p tcp -m state --state NEW -m tcp --dport 179 -j ACCEPT
+      - iptables -I INPUT -p tcp -m state --state NEW -m tcp --dport 10250 -j ACCEPT
+      - iptables-save > /etc/iptables/rules.v4
+      metadata:
+        ssh_authorized_keys: ${OCI_PUB_SSH}
